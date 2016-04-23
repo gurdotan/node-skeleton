@@ -1,10 +1,11 @@
 {
-  "name"         : "node-skeleton",
-  "version"      : "0.0.0",
-  "description"  : "NodeJs + express + angularJs skeleton.",
-  "main"         : "app.js",
-  "author"       : "OriW",
-  "dependencies" : {
-    "express"         : "~4.6.1"
+  "name": "node-skeleton",
+  "version": "0.0.0",
+  "description": "NodeJs + express + angularJs skeleton.",
+  "main": "app.js",
+  "author": "OriW",
+  "dependencies": {
+    "express": "~4.6.1",
+    "socket.io": "1.4.5"
   }
 }
