@@ -1,7 +1,18 @@
 // App
-var app = angular.module('app', [
-  'btford.socket-io'
-]);
+
+//
+// Inspired by https://github.com/annatomka/angular-chat
+//
+
+var app = angular.module('forterChatApp', [
+  'btford.socket-io',
+  'ngMaterial'
+]).config(['$mdThemingProvider', function($mdThemingProvider) {
+  $mdThemingProvider.theme('default');
+    // .primaryPalette('pink')
+    // .accentPalette('orange');
+}]);
+
 
 // Service to fetch some data..
 app.factory('dataServ', ['$http', function($http) {
@@ -27,14 +38,29 @@ app.value('messageFormatter', function(date, nick, message) {
 
 
 // App controller
-app.controller('appController', ['$scope', 'dataServ', 'chatSocket', '$log', 'messageFormatter', function($scope, Data, chatSocket, $log, messageFormatter) {
+app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'messageFormatter', function($scope, Data, chatSocket, $log, messageFormatter) {
 
   $scope.funnyStuff = {question: '', answer: ''};
 
-  Data.get()
-    .success(function(resp) {
-      $scope.funnyStuff = resp;
-    });
+  var vm = this;
+
+  vm.username = 'Gur';
+  vm.newMessage = '';
+  vm.createMessage = function() {
+    chatSocket.emit('message', vm.username, vm.newMessage);
+    vm.newMessage = '';
+  };
+
+  vm.messages = [];
+  vm.users = [];
+  // vm.allusers = allUsersFactory.users;
+
+
+
+  // Data.get()
+  //   .success(function(resp) {
+  //     $scope.funnyStuff = resp;
+  //   });
 
 
   var number = Math.random();
@@ -57,19 +83,21 @@ app.controller('appController', ['$scope', 'dataServ', 'chatSocket', '$log', 'me
 
     $log.debug('sending message', $scope.message);
     chatSocket.emit('message', nickName, $scope.message);
-    // $scope.message = '';
   };
 
-  $scope.$on('socket:broadcast', function(event, data) {
+  $scope.$on('socket:broadcast', function(event, message) {
     $log.debug('got a message', event.name);
-    if (!data.payload) {
-      $log.error('invalid message', 'event', event, 'data', JSON.stringify(data));
+    if (!message.text) {
+      $log.error('invalid message', 'event', event, 'data', JSON.stringify(message));
       return;
     }
-    $log.debug(data);
+    $log.debug(message);
     $scope.$apply(function() {
-      $scope.messageLog = $scope.messageLog + messageFormatter(new Date(), data.source, data.payload);
+      $scope.messageLog = $scope.messageLog + messageFormatter(new Date(), message.source, message.payload);
     });
+
+    vm.messages.push(message);
+
   });
 
 }]);
