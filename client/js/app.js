@@ -6,11 +6,16 @@
 
 var app = angular.module('forterChatApp', [
   'btford.socket-io',
-  'ngMaterial'
-]).config(['$mdThemingProvider', function($mdThemingProvider) {
+  'ngMaterial',
+  'LocalStorageModule'
+]).config(['$mdThemingProvider', 'localStorageServiceProvider', function($mdThemingProvider, localStorageServiceProvider) {
   $mdThemingProvider.theme('default');
     // .primaryPalette('pink')
     // .accentPalette('orange');
+
+  localStorageServiceProvider
+    .setPrefix('forterChatApp');
+
 }]);
 
 
@@ -43,14 +48,14 @@ var DEFAULT_AVATAR = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYA
 
 
 // App controller
-app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'messageFormatter', function($scope, Data, chatSocket, $log, messageFormatter) {
+app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'messageFormatter', 'localStorageService', function($scope, Data, chatSocket, $log, messageFormatter, localStorageService) {
 
   $scope.funnyStuff = {question: '', answer: ''};
 
   var vm = this;
 
-  vm.username = '';
-  vm.avatarUrl = '';
+  vm.username = localStorageService.get('username') || '';
+  vm.avatarUrl = localStorageService.get('avatarUrl') || '';
   vm.newMessage = '';
   vm.createMessage = function() {
     chatSocket.emit('message', {
@@ -65,6 +70,13 @@ app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'me
   vm.users = [];
   // vm.allusers = allUsersFactory.users;
 
+  
+  vm.persistUsername = function() {
+    localStorageService.set('username', vm.username);
+  };
+  vm.persistAvatarUrl = function() {
+    localStorageService.set('avatarUrl', vm.avatarUrl);
+  };
 
 
   // Data.get()
