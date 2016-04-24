@@ -1,7 +1,17 @@
 var _ = require('lodash');
 
-var processQuestion = function(from, message) {
+var qaBank = {};
 
+var processQuestion = function(question, username) {
+  var question = question.toLowerCase();
+  if (qaBank[question]) {
+    return 'You already asked that!'
+  } else {
+    (qaBank[question]) || (qaBank[question] = {});
+    (qaBank[question][username]) || (qaBank[question][username] = 0);
+    qaBank[question][username]++;
+  }
+  return 'Beats me!';
 };
 
 
@@ -15,16 +25,20 @@ module.exports = function (io) {
       console.log('broadcasting message');
       console.log('message is', message);
 
-      var broadcastMessage = _.extend({timestamp: Date.now()}, message);
+      var now = Date.now();
+      var broadcastMessage = _.extend({timestamp: now}, message);
 
       io.sockets.emit('broadcast', broadcastMessage);
 
       if (message.text.match(/\?$/)) {
 
         // TODO: Let chatbot respond
-        // io.sockets.emit('broadcast', _.extend(broadcastMessage, {
-        //   text: message.text
-        // }));
+        io.sockets.emit('broadcast', {
+          username: 'Chatbot',
+          avatarUrl: 'http://www.colinkeany.com/lovebot/assets/images/icon.png',
+          text: processQuestion(message.text, message.username),
+          timestamp: now
+        });
 
       }
 
