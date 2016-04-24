@@ -1,7 +1,9 @@
 <md-list-item class="contact-item md-2-line selected">
-  <img ng-src="{{ messageCtrl.author.imageUrl }}" class="md-avatar message-avatar"/>
+  <img ng-src="{{ messageCtrl.message.avatarUrl }}" class="md-avatar message-avatar"/>
   <div class="md-list-item-text compact">
-    <p style="text-align: right;"><small><strong>{{messageCtrl.author }}</strong>, {{ messageCtrl.message | createdDate }}</small></p>
+    <p style="text-align: right;">
+      <small><strong>{{messageCtrl.message.username }}</strong>, {{ messageCtrl.message.timestamp | createdDate }}</small>
+    </p>
     <div class="message-content">{{messageCtrl.message.text}}</div>
   </div>
 </md-list-item>

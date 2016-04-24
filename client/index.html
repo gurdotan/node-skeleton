@@ -6,6 +6,7 @@
   <title>NodeJS Skeleton</title>
   <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">-->
   <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+  <link rel="stylesheet" href="css/app.css">
 
   <!-- Some css -->
   <style type="text/css">
@@ -41,34 +42,47 @@
 </md-content>
 
 
-<div class="full-height layout-fill ng-scope layout-column" ui-view="" layout="column" layout-fill="" aria-hidden="false"><!-- ngIf: roomsCtrl.rooms.length > 0 -->
-  <md-content flex="" class="ng-scope flex">
+<div class="full-height layout-fill layout-column" ui-view="" layout="column" layout-fill="" aria-hidden="false"><!-- ngIf: roomsCtrl.rooms.length > 0 -->
+  <md-content flex="" class="flex">
     <div class="md-subheader" sticky-state="next">
-      <div class="md-subheader-inner"><span class="md-subheader-content"><span class="ng-scope">Opened Rooms right now</span></span></div>
+
+
+      <md-input-container class="md-accent">
+        <label for="input-username">User Name</label>
+        <input ng-enter="" ng-model="appCtrl.username" id="input-username">
+      </md-input-container>
+      <md-input-container class="md-accent">
+        <label for="input-avatar-url">Avatar URL</label>
+        <input ng-enter="" ng-model="appCtrl.avatarUrl" id="input-avatar-url">
+      </md-input-container>
     </div>
 
 
-    <div ui-view="" flex="" class="ng-scope flex">
-      <div layout="row" layout-wrap="" class="layout-wrap ng-scope layout-row">
+    <div ui-view="" flex="" class="flex">
+      <div layout="row" layout-wrap="" class="layout-wrap layout-row">
         <md-content layout="column" flex="80" flex-sm="100" class="layout-column flex-sm-100 flex-80">
-          <md-content style="height: 60vh;" class="ng-binding">
-            <div class="md-subheader-wrapper ng-scope md-sticky-clone" sticky-state="next" style="margin-left: 0px;">
+          <md-content style="height: 60vh;">
+            <div class="md-subheader-wrapper md-sticky-clone" sticky-state="next" style="margin-left: 0px;">
               <div class="md-info md-subheader">
-                <div class="md-subheader-inner"><span class="md-subheader-content"><span class="ng-binding ng-scope">Messages in room Test</span></span></div>
+                <div class="md-subheader-inner">
+                  <span class="md-subheader-content">
+                  <span>Messages in room Test</span>
+                  </span>
+                </div>
               </div>
             </div>
             <md-list scroll="appCtrl.messages" role="list">
               <div class="md-info md-subheader" sticky-state="next">
                 <div class="md-subheader-inner">
                   <span class="md-subheader-content">
-                    <span class="ng-binding ng-scope">Messages in room Test</span>
+                    <span>Messages in room Test</span>
                   </span>
                 </div>
               </div>
 
               <!-- ngRepeat: message in appCtrl.messages -->
-              <message ng-repeat="message in appCtrl.messages" message="message" author="message.authorId"
-                       ng-class="{ 'repeated-author' : $index>0 && message.authorId == appCtrl.messages[$index-1].authorId}" class="ng-scope ng-isolate-scope">
+              <message ng-repeat="message in appCtrl.messages" message="message"
+                       ng-class="{ 'repeated-author' : $index>0 && message.username == appCtrl.messages[$index-1].username}">
               </message>
               <!-- end ngRepeat: message in appCtrl.messages -->
 
@@ -77,9 +91,7 @@
           <md-content layout-padding="" layout="column" class="layout-padding layout-column">
             <md-input-container class="md-accent">
               <label for="user-input">New Message</label>
-              <input ng-enter="appCtrl.createMessage()" ng-model="appCtrl.newMessage" md-maxlength="350"
-                     class="ng-valid md-input ng-dirty ng-valid-md-maxlength ng-touched" id="user-input"
-                     aria-invalid="false" ng-trim="false" style="">
+              <input ng-enter="appCtrl.createMessage()" ng-model="appCtrl.newMessage" md-maxlength="350" id="user-input">
               <div class="md-errors-spacer">
                 <div class="md-char-counter">0/350</div>
               </div>
@@ -87,19 +99,20 @@
           </md-content>
         </md-content>
         <md-content class="side-nav room-users hide-sm layout-column flex-18" hide-sm="" layout="column" flex="18">
-          <div class="md-subheader-wrapper ng-scope md-sticky-clone" sticky-state="next" style="margin-left: 0px;">
+          <div class="md-subheader-wrapper md-sticky-clone" sticky-state="next" style="margin-left: 0px;">
             <div class="md-accent md-subheader">
-              <div class="md-subheader-inner"><span class="md-subheader-content"><span class="ng-scope">Available users</span></span></div>
+              <div class="md-subheader-inner"><span class="md-subheader-content"><span>Available users</span></span></div>
             </div>
           </div>
           <md-list layout-fill="" class="layout-fill" role="list">
             <div class="md-accent md-subheader" sticky-state="next">
-              <div class="md-subheader-inner"><span class="md-subheader-content"><span class="ng-scope">Available users</span></span></div>
+              <div class="md-subheader-inner"><span class="md-subheader-content"><span>Available users</span></span></div>
             </div><!-- ngRepeat: (index, contact) in roomItemCtrl.users -->
-            <md-list-item class="md-2-line contact-item selected md-no-proxy ng-scope" ng-repeat="(index, contact) in roomItemCtrl.users" role="listitem"><img
+            <md-list-item class="md-2-line contact-item selected md-no-proxy" ng-repeat="(index, contact) in roomItemCtrl.users" role="listitem"><img
                 ng-src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460" class="md-avatar" alt="" src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460">
-              <div class="md-list-item-text compact"><h3 class="ng-binding">Gur Dotan</h3>
-                <p class="ng-binding">@gur@soom.la</p></div>
+              <div class="md-list-item-text compact">
+                <h3>Gur Dotan</h3>
+                <p>@gur@soom.la</p></div>
               <md-divider></md-divider>
             </md-list-item><!-- end ngRepeat: (index, contact) in roomItemCtrl.users --></md-list>
         </md-content>

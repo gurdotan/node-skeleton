@@ -14,8 +14,7 @@
       controllerAs    : 'messageCtrl',
       bindToController: true,
       scope           : {
-        message: "=",
-        author : "="
+        message: "="
       }
     };
 
