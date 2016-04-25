@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/app.css">
 
 </head>
-<!-- appController -->
+
 <body ng-controller="AppController as appCtrl">
 <md-content>
   <md-toolbar>
@@ -25,16 +25,15 @@
 <div layout="column" layout-fill>
   <md-content flex>
     <md-subheader sticky-state="next">
-      <md-input-container class="md-accent">
+      <md-input-container class="md-accent user-input-container">
         <label for="input-username">User Name</label>
         <input ng-enter="" ng-model="appCtrl.username" id="input-username" ng-change="appCtrl.persistUsername()">
       </md-input-container>
-      <md-input-container class="md-accent">
+      <md-input-container class="md-accent user-input-container">
         <label for="input-avatar-url">Avatar URL</label>
         <input ng-enter="" ng-model="appCtrl.avatarUrl" id="input-avatar-url" ng-change="appCtrl.persistAvatarUrl()">
       </md-input-container>
     </md-subheader>
-
 
     <div ui-view flex>
       <div layout="row" layout-wrap>

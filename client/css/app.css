@@ -1,29 +1,3 @@
-/*body {*/
-/*background-image: url("https://newevolutiondesigns.com/images/freebies/google-material-design-wallpaper-14.jpg");*/
-/*background-size: cover;*/
-/*}*/
-
-/*.avatar {*/
-/*height: 128px;*/
-/*border-radius: 50%;*/
-/*box-sizing: content-box;*/
-/*display: block;*/
-/*margin: 0 auto;*/
-/*margin-top: 20px;*/
-/*margin-bottom: 20px;*/
-/*}*/
-
-/*.cover {*/
-/*background-color: #EBEBEB;*/
-/*}*/
-/*.cover .fullname {*/
-/*margin-bottom: 3px;*/
-/*margin-top: 0px;*/
-/*}*/
-/*.cover .username {*/
-/*margin-bottom: 5px;*/
-/*}*/
-
 message md-chips {
   margin: auto;
 }
@@ -83,30 +57,7 @@ message md-list-item.contact-item {
   min-height: 0;
 }
 
-.room-users {
-  max-height: 60vh;
-}
-
-.room-users md-list {
-  padding: 0px;
-}
-
-.room-users md-list md-list-item {
-  background-color: white;
-}
-
-.login-frame img, .registration-frame img {
-  max-height: 100px;
-  width: auto;
-  margin: auto;
-}
-
-.login-frame md-card, .registration-frame md-card {
-  max-width: 400px;
-  margin: auto;
-}
-
-.full-height {
-  height: 100%;
-  box-sizing: border-box;
+.user-input-container {
+  width: 30%;
+  margin-bottom: 0;
 }
