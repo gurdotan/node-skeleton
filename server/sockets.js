@@ -1,25 +1,34 @@
 'use strict';
 
 var _ = require('lodash'),
+    stringSimilarity = require('string-similarity'),
     qa = require('./qa');
 
-var qaBank = {}, userQaCount = {}, users = [];
+var pastQuestions = {}, userQaCount = {}, users = [];
 
 
-var processQuestion = (question, username) => {
+var answerToSimilarQuestion = (question, collection) => {
+  return _.find(collection, (a, q) => {
+    return stringSimilarity.compareTwoStrings(question, q) > 0.7;
+  });
+};
+
+var processQuestion = (question) => {
   var q = question.toLowerCase();
-  if (qaBank[q]) return qaBank[q];
+  return answerToSimilarQuestion(q, pastQuestions) || answerToSimilarQuestion(q, qa.common);
+};
 
-  if (userQaCount[q]) {
-    if (userQaCount[q][username]) {
-      return 'You already asked that!';
+var isUserSpammer = (question, username) => {
+  var users;
+  if (users = answerToSimilarQuestion(question, userQaCount)) {
+    if (users[username]) {
+      return _.sample(qa.spammerResponses);
     }
-  } else {
-    (userQaCount[q]) || (userQaCount[q] = {});
-    (userQaCount[q][username]) || (userQaCount[q][username] = 0);
-    userQaCount[q][username]++;
   }
-  // return 'Beats me!';
+
+  // Save the question for next round's lookup
+  (userQaCount[question]) || (userQaCount[question] = {});
+  (userQaCount[question][username]) || (userQaCount[question][username] = true);
 };
 
 var isQuestion = (message) => {
@@ -38,7 +47,7 @@ var isAnswer = (message) => {
 
 var saveAnswer = (question, answer) => {
   var key = question.toLowerCase().replace(/^[aA]:\s*/, '');
-  qaBank[key] = answer;
+  pastQuestions[key] = answer;
 };
 
 
@@ -71,14 +80,18 @@ module.exports = (io) => {
       io.sockets.emit('broadcast', _.extend({timestamp: now}, message));
 
       var currentMessage = message.text,
-        answer;
+        answer, warning;
+
+      if (warning = isUserSpammer(currentMessage, message.username)) {
+        broadcastChatbotMessage(warning);
+      }
 
       //
       // Check if the current message is a question
       // and give Chatbot an opportunity to answer
       //
       if (isQuestion(currentMessage) &&
-        (answer = processQuestion(currentMessage, message.username))) {
+        (answer = processQuestion(currentMessage))) {
 
         // Send answer to all chat room users
         broadcastChatbotMessage(answer);

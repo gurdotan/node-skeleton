@@ -1,4 +1,4 @@
-var chuckNoris = [
+var chuckNorris = [
   "Chuck Norris threw a grenade and killed 50 people, then it exploded.",
   "Chuck Norris once broke a mirror over the head of a black cat while standing under a ladder on Friday the thirteenth. The next day he won the lottery.",
   "Chuck Norris can speak French... In Russian.",
@@ -104,4 +104,18 @@ var chuckNoris = [
   "Chuck Norris can squeeze orange juice out of a lemon"
 ];
 
-module.exports.chuckNorris = chuckNoris;
+var common = {
+  "What's the best surf spot in the world?": "Playa El Tunco, El Salvador",
+  "What's the best ski resort in the world?": "Val Thorens, France",
+  "Who framed Roger Rabbit?": "We're still investigating that"
+};
+
+var spammerResponses = [
+  "You already asked that...",
+  "Again you're asking that?",
+  "Dude, you're pushing it...",
+  "Stop asking the same thing over and over again",
+  "Again? Seriously - you need professional help!"
+];
+
+module.exports = {chuckNorris, common, spammerResponses};

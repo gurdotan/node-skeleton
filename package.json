@@ -7,6 +7,7 @@
   "dependencies": {
     "express": "~4.6.1",
     "lodash": "4.11.1",
-    "socket.io": "1.4.5"
+    "socket.io": "1.4.5",
+    "string-similarity": "1.0.0"
   }
 }
