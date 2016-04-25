@@ -1,0 +1,26 @@
+{
+  "name": "node-skeleton",
+  "description": "Forter Chat App",
+  "main": "app.js",
+  "authors": [
+    "Gur Dotan"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/forter/node-skeleton",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-local-storage": "0.2.7",
+    "angular-material": "1.0.7",
+    "angular-socket-io": "0.7.0",
+    "lodash": "4.11.2",
+    "socket.io-client": "1.4.5"
+  }
+}
