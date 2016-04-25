@@ -22,7 +22,7 @@
 </md-content>
 
 
-<div class="full-height layout-fill layout-column" ui-view="" layout="column" layout-fill="" aria-hidden="false"><!-- ngIf: roomsCtrl.rooms.length > 0 -->
+<div class="full-height layout-fill layout-column" ui-view="" layout="column" layout-fill="" aria-hidden="false">
   <md-content flex="" class="flex">
     <div class="md-subheader" sticky-state="next">
 
@@ -59,13 +59,9 @@
                   </span>
                 </div>
               </div>
-
-              <!-- ngRepeat: message in appCtrl.messages -->
               <message ng-repeat="message in appCtrl.messages" message="message"
                        ng-class="{ 'repeated-author' : $index>0 && message.username == appCtrl.messages[$index-1].username}">
               </message>
-              <!-- end ngRepeat: message in appCtrl.messages -->
-
             </md-list>
           </md-content>
           <md-content layout-padding="" layout="column" class="layout-padding layout-column">
