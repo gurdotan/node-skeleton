@@ -22,11 +22,9 @@
 </md-content>
 
 
-<div class="full-height layout-fill layout-column" ui-view="" layout="column" layout-fill="" aria-hidden="false">
-  <md-content flex="" class="flex">
-    <div class="md-subheader" sticky-state="next">
-
-
+<div layout="column" layout-fill>
+  <md-content flex>
+    <md-subheader sticky-state="next">
       <md-input-container class="md-accent">
         <label for="input-username">User Name</label>
         <input ng-enter="" ng-model="appCtrl.username" id="input-username" ng-change="appCtrl.persistUsername()">
@@ -35,36 +33,20 @@
         <label for="input-avatar-url">Avatar URL</label>
         <input ng-enter="" ng-model="appCtrl.avatarUrl" id="input-avatar-url" ng-change="appCtrl.persistAvatarUrl()">
       </md-input-container>
-    </div>
+    </md-subheader>
 
 
-    <div ui-view="" flex="" class="flex">
-      <div layout="row" layout-wrap="" class="layout-wrap layout-row">
-        <md-content layout="column" flex="80" flex-sm="100" class="layout-column flex-sm-100 flex-80">
+    <div ui-view flex>
+      <div layout="row" layout-wrap>
+        <md-content layout="column" flex="80" flex-sm="100">
           <md-content style="height: 60vh;">
-            <div class="md-subheader-wrapper md-sticky-clone" sticky-state="next" style="margin-left: 0px;">
-              <div class="md-info md-subheader">
-                <div class="md-subheader-inner">
-                  <span class="md-subheader-content">
-                  <span>Messages in room Test</span>
-                  </span>
-                </div>
-              </div>
-            </div>
             <md-list scroll="appCtrl.messages" role="list">
-              <div class="md-info md-subheader" sticky-state="next">
-                <div class="md-subheader-inner">
-                  <span class="md-subheader-content">
-                    <span>Messages in room Test</span>
-                  </span>
-                </div>
-              </div>
               <message ng-repeat="message in appCtrl.messages" message="message"
                        ng-class="{ 'repeated-author' : $index>0 && message.username == appCtrl.messages[$index-1].username}">
               </message>
             </md-list>
           </md-content>
-          <md-content layout-padding="" layout="column" class="layout-padding layout-column">
+          <md-content layout-padding layout="column">
             <md-input-container class="md-accent">
               <label for="user-input">New Message</label>
               <input ng-enter="appCtrl.createMessage()" ng-model="appCtrl.newMessage" md-maxlength="350" id="user-input">
