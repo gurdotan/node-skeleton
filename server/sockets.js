@@ -1,46 +1,98 @@
-var _ = require('lodash');
+'use strict';
 
-var qaBank = {};
+var _ = require('lodash'),
+    qa = require('./qa');
+
+var qaBank = {}, userQaCount = {};
+
 
 var processQuestion = function(question, username) {
-  var question = question.toLowerCase();
-  if (qaBank[question]) {
-    return 'You already asked that!'
+  var q = question.toLowerCase();
+  if (qaBank[q]) return qaBank[q];
+
+  if (userQaCount[q]) {
+    if (userQaCount[q][username]) {
+      return 'You already asked that!';
+    }
   } else {
-    (qaBank[question]) || (qaBank[question] = {});
-    (qaBank[question][username]) || (qaBank[question][username] = 0);
-    qaBank[question][username]++;
+    (userQaCount[q]) || (userQaCount[q] = {});
+    (userQaCount[q][username]) || (userQaCount[q][username] = 0);
+    userQaCount[q][username]++;
   }
-  return 'Beats me!';
+  // return 'Beats me!';
+};
+
+var isQuestion = function(message) {
+  return _.endsWith(message, '?');
+};
+
+var lookupTeaser = function(message) {
+  if (message.match(/chuck\s+?norr?is/i)) {
+    return qa.chuckNorris[_.random(qa.chuckNorris.length)];
+  }
+};
+
+var isAnswer = function(message) {
+  return _.startsWith(message.toLowerCase(), 'a:');
+};
+
+var saveAnswer = function(question, answer) {
+  var key = question.toLowerCase().replace(/^[aA]:\s*/, '');
+  qaBank[key] = answer;
 };
 
 
-
 module.exports = function (io) {
-  'use strict';
+
+  var lastMessage;
+
+  var broadcastChatbotMessage = function(message) {
+    io.sockets.emit('broadcast', {
+      username: 'Chatbot',
+      avatarUrl: 'http://www.colinkeany.com/lovebot/assets/images/icon.png',
+      text: message,
+      timestamp: Date.now()
+    });
+  };
+
+
   io.on('connection', function (socket) {
     socket.on('message', function (message) {
 
-      console.log('recieved message: ', JSON.stringify(message));
-      console.log('broadcasting message');
-      console.log('message is', message);
+      console.log('received message: ', JSON.stringify(message));
 
       var now = Date.now();
-      var broadcastMessage = _.extend({timestamp: now}, message);
+      io.sockets.emit('broadcast', _.extend({timestamp: now}, message));
 
-      io.sockets.emit('broadcast', broadcastMessage);
+      var currentMessage = message.text,
+        answer;
 
-      if (message.text.match(/\?$/)) {
+      //
+      // Check if the current message is a question
+      // and give Chatbot an opportunity to answer
+      //
+      if (isQuestion(currentMessage) &&
+        (answer = processQuestion(currentMessage, message.username))) {
 
-        // TODO: Let chatbot respond
-        io.sockets.emit('broadcast', {
-          username: 'Chatbot',
-          avatarUrl: 'http://www.colinkeany.com/lovebot/assets/images/icon.png',
-          text: processQuestion(message.text, message.username),
-          timestamp: now
-        });
+        // Send answer to all chat room users
+        broadcastChatbotMessage(answer);
 
+      } else if (isQuestion(lastMessage) && isAnswer(currentMessage)) {
+
+        // Cache Q&A pairs for Chatbot to use later
+        saveAnswer(lastMessage, currentMessage);
+
+      } else if (answer = lookupTeaser(currentMessage)) {
+
+        //
+        // Let Chatbot intercept messages with teasers and pull pranks
+        // Supported teasers: 'Chuck Norris'
+        //
+        broadcastChatbotMessage(answer);
       }
+
+      // Keep track of last message
+      lastMessage = currentMessage;
 
       console.log('broadcast complete');
     });
