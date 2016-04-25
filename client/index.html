@@ -11,21 +11,12 @@
 <!-- appController -->
 <body ng-controller="AppController as appCtrl">
 <md-content>
-  <md-toolbar class="md-hue-2">
+  <md-toolbar>
     <div class="md-toolbar-tools">
-      <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
-        <!--<md-icon md-svg-icon="img/icons/menu.svg"></md-icon>-->
-      </md-button>
+      <img src="img/logo-white.svg" alt="" style="margin-right: 15px">
       <h2>
-        <span>The Forter Hangout</span>
+        <span>Chat Room</span>
       </h2>
-      <span flex></span>
-      <md-button class="md-icon-button" aria-label="Favorite">
-        <!--<md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>-->
-      </md-button>
-      <md-button class="md-icon-button" aria-label="More">
-        <!--<md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>-->
-      </md-button>
     </div>
   </md-toolbar>
 </md-content>
@@ -90,24 +81,35 @@
         <md-content class="side-nav room-users hide-sm layout-column flex-18" hide-sm="" layout="column" flex="18">
           <div class="md-subheader-wrapper md-sticky-clone" sticky-state="next" style="margin-left: 0px;">
             <div class="md-accent md-subheader">
-              <div class="md-subheader-inner"><span class="md-subheader-content"><span>Available users</span></span></div>
+              <div class="md-subheader-inner">
+                <span class="md-subheader-content">
+                  <span>Available users</span>
+                </span>
+              </div>
             </div>
           </div>
           <md-list layout-fill="" class="layout-fill" role="list">
             <div class="md-accent md-subheader" sticky-state="next">
-              <div class="md-subheader-inner"><span class="md-subheader-content"><span>Available users</span></span></div>
-            </div><!-- ngRepeat: (index, contact) in roomItemCtrl.users -->
-            <md-list-item class="md-2-line contact-item selected md-no-proxy" ng-repeat="(index, contact) in roomItemCtrl.users" role="listitem"><img
-                ng-src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460" class="md-avatar" alt="" src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460">
+              <div class="md-subheader-inner">
+                <span class="md-subheader-content">
+                  <span>Available users</span>
+                </span>
+              </div>
+            </div>
+            <!-- ngRepeat: (index, contact) in roomItemCtrl.users -->
+            <md-list-item class="md-2-line contact-item selected md-no-proxy" ng-repeat="(index, contact) in roomItemCtrl.users" role="listitem">
+              <img ng-src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460" class="md-avatar" alt="" src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460">
               <div class="md-list-item-text compact">
                 <h3>Gur Dotan</h3>
                 <p>@gur@soom.la</p></div>
               <md-divider></md-divider>
-            </md-list-item><!-- end ngRepeat: (index, contact) in roomItemCtrl.users --></md-list>
+            </md-list-item><!-- end ngRepeat: (index, contact) in roomItemCtrl.users -->
+          </md-list>
         </md-content>
       </div>
     </div>
-  </md-content><!-- end ngIf: roomsCtrl.rooms.length > 0 --></div>
+  </md-content>
+</div>
 
 
 <!-- Load js dep -->
