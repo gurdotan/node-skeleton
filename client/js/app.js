@@ -61,7 +61,7 @@ app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'me
     chatSocket.emit('message', {
       username: vm.username,
       avatarUrl: vm.avatarUrl,
-      text: vm.newMessage
+      text: vm.newMessage.trim()
     });
     vm.newMessage = '';
   };
