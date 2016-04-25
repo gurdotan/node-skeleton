@@ -6,7 +6,7 @@ var _ = require('lodash'),
 var qaBank = {}, userQaCount = {}, users = [];
 
 
-var processQuestion = function(question, username) {
+var processQuestion = (question, username) => {
   var q = question.toLowerCase();
   if (qaBank[q]) return qaBank[q];
 
@@ -22,31 +22,31 @@ var processQuestion = function(question, username) {
   // return 'Beats me!';
 };
 
-var isQuestion = function(message) {
+var isQuestion = (message) => {
   return _.endsWith(message, '?');
 };
 
-var lookupTeaser = function(message) {
+var lookupTeaser = (message) => {
   if (message.match(/chuck\s+?norr?is/i)) {
     return qa.chuckNorris[_.random(qa.chuckNorris.length)];
   }
 };
 
-var isAnswer = function(message) {
+var isAnswer = (message) => {
   return _.startsWith(message.toLowerCase(), 'a:');
 };
 
-var saveAnswer = function(question, answer) {
+var saveAnswer = (question, answer) => {
   var key = question.toLowerCase().replace(/^[aA]:\s*/, '');
   qaBank[key] = answer;
 };
 
 
-module.exports = function (io) {
+module.exports = (io) => {
 
   var lastMessage;
 
-  var broadcastChatbotMessage = function(message) {
+  var broadcastChatbotMessage = (message) => {
     io.sockets.emit('broadcast', {
       username: 'Chatbot',
       avatarUrl: 'http://www.colinkeany.com/lovebot/assets/images/icon.png',
@@ -56,14 +56,14 @@ module.exports = function (io) {
   };
 
 
-  io.on('connection', function (socket) {
+  io.on('connection', (socket) => {
 
     // Save current user in closure.
     // We'll need it in order to remove the current user
     // when his/her socket will get disconnected.
-    var _user;
+    var _user = {};
 
-    socket.on('message', function (message) {
+    socket.on('message', (message) => {
 
       console.log('received message: ', JSON.stringify(message));
 
@@ -103,14 +103,14 @@ module.exports = function (io) {
       console.log('broadcast complete');
     });
     
-    socket.on('subscribe', function(user) {
+    socket.on('subscribe', (user) => {
       console.log(`Subscribed: ${user.username}`);
       _user = user;
       users.push(user);
       io.sockets.emit('users.update', users);
     });
 
-    socket.on('disconnect', function () {
+    socket.on('disconnect', () => {
       console.log(`Disconnected: ${_user.username}`);
       _.remove(users, _user);
       _user = null;

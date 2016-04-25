@@ -13,10 +13,6 @@ app.use(express.static(__dirname + '/client'));
 // set up websockets
 require('./server/sockets')(io);
 
-// optional - set socket.io logging level
-io.set('log level', 1000);
-
-
 // start the server
 server.listen(port);
-console.log("Web server listening on port " + port);
+console.log(`Web server listening on port ${port}`);
