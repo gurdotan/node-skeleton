@@ -3,7 +3,7 @@
 var _ = require('lodash'),
     qa = require('./qa');
 
-var qaBank = {}, userQaCount = {};
+var qaBank = {}, userQaCount = {}, users = [];
 
 
 var processQuestion = function(question, username) {
@@ -57,6 +57,12 @@ module.exports = function (io) {
 
 
   io.on('connection', function (socket) {
+
+    // Save current user in closure.
+    // We'll need it in order to remove the current user
+    // when his/her socket will get disconnected.
+    var _user;
+
     socket.on('message', function (message) {
 
       console.log('received message: ', JSON.stringify(message));
@@ -96,5 +102,20 @@ module.exports = function (io) {
 
       console.log('broadcast complete');
     });
+    
+    socket.on('subscribe', function(user) {
+      console.log(`Subscribed: ${user.username}`);
+      _user = user;
+      users.push(user);
+      io.sockets.emit('users.update', users);
+    });
+
+    socket.on('disconnect', function () {
+      console.log(`Disconnected: ${_user.username}`);
+      _.remove(users, _user);
+      _user = null;
+      io.sockets.emit('users.update', users);
+    });
+
   });
 };

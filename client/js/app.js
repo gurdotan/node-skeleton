@@ -18,6 +18,8 @@ var app = angular.module('forterChatApp', [
 
 }]);
 
+app.constant('_', window._);
+
 
 // Service to fetch some data..
 app.factory('dataServ', ['$http', function($http) {
@@ -48,7 +50,7 @@ var DEFAULT_AVATAR = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYA
 
 
 // App controller
-app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'messageFormatter', 'localStorageService', function($scope, Data, chatSocket, $log, messageFormatter, localStorageService) {
+app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'messageFormatter', 'localStorageService', 'chatSocket', function($scope, Data, chatSocket, $log, messageFormatter, localStorageService, chatSocket) {
 
   $scope.funnyStuff = {question: '', answer: ''};
 
@@ -126,5 +128,21 @@ app.controller('AppController', ['$scope', 'dataServ', 'chatSocket', '$log', 'me
     vm.messages.push(message);
 
   });
+
+  vm.users = [];
+
+  chatSocket.emit("subscribe", {username: vm.username, avatarUrl: vm.avatarUrl});
+
+  chatSocket.on("users.update",function (users) {
+    vm.users = users;
+  });
+
+  chatSocket.on("user.left",function (user) {
+    _.remove(vm.users, {
+      username: user.username
+    });
+  });
+
+
 
 }]);

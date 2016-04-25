@@ -78,32 +78,20 @@
             </md-input-container>
           </md-content>
         </md-content>
-        <md-content class="side-nav room-users hide-sm layout-column flex-18" hide-sm="" layout="column" flex="18">
-          <div class="md-subheader-wrapper md-sticky-clone" sticky-state="next" style="margin-left: 0px;">
-            <div class="md-accent md-subheader">
-              <div class="md-subheader-inner">
-                <span class="md-subheader-content">
-                  <span>Available users</span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <md-list layout-fill="" class="layout-fill" role="list">
-            <div class="md-accent md-subheader" sticky-state="next">
-              <div class="md-subheader-inner">
-                <span class="md-subheader-content">
-                  <span>Available users</span>
-                </span>
-              </div>
-            </div>
-            <!-- ngRepeat: (index, contact) in roomItemCtrl.users -->
-            <md-list-item class="md-2-line contact-item selected md-no-proxy" ng-repeat="(index, contact) in roomItemCtrl.users" role="listitem">
-              <img ng-src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460" class="md-avatar" alt="" src="https://avatars3.githubusercontent.com/u/405975?v=3&amp;s=460">
+
+
+
+
+        <md-content class="side-nav room-users" hide-sm layout="column" flex="18">
+          <md-list layout-fill>
+            <md-subheader class="md-accent">Available users</md-subheader>
+            <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, user) in appCtrl.users">
+              <img ng-src='{{ user.avatarUrl | anonymousIconFallback }}' class="md-avatar" alt="{{user.username}}"/>
               <div class="md-list-item-text compact">
-                <h3>Gur Dotan</h3>
-                <p>@gur@soom.la</p></div>
+                <h3>{{user.username | anonymousUsernameFallback}}</h3>
+              </div>
               <md-divider></md-divider>
-            </md-list-item><!-- end ngRepeat: (index, contact) in roomItemCtrl.users -->
+            </md-list-item>
           </md-list>
         </md-content>
       </div>
@@ -113,6 +101,7 @@
 
 
 <!-- Load js dep -->
+<script src="bower_components/lodash/dist/lodash.min.js"></script>
 <script src="bower_components/socket.io-client/socket.io.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.min.js"></script>
@@ -125,6 +114,7 @@
 <script src="js/enter.directive.js"></script>
 <script src="js/message/message.directive.js"></script>
 <script src="js/util/created.date.filter.js"></script>
+<script src="js/util/anonymous-fallback.filter.js"></script>
 
 </body>
 </html>
