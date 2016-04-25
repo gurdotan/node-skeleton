@@ -7,6 +7,10 @@ var _ = require('lodash'),
 var pastQuestions = {}, userQaCount = {}, users = [];
 
 
+//
+// Private methods
+//
+
 var answerToSimilarQuestion = (question, collection) => {
   return _.find(collection, (a, q) => {
     return stringSimilarity.compareTwoStrings(question, q) > 0.7;
@@ -51,6 +55,10 @@ var saveAnswer = (question, answer) => {
 };
 
 
+//
+// Export main socket functionality
+//
+
 module.exports = (io) => {
 
   var lastMessage;
@@ -76,6 +84,9 @@ module.exports = (io) => {
 
       console.log('received message: ', JSON.stringify(message));
 
+      //
+      // First thing, broadcast each message to all other users
+      //
       var now = Date.now();
       io.sockets.emit('broadcast', _.extend({timestamp: now}, message));
 
