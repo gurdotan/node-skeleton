@@ -105,6 +105,7 @@ var chuckNorris = [
 ];
 
 var common = {
+  "What time is it?": "Just check your watch...",
   "What's the best surf spot in the world?": "Playa El Tunco, El Salvador",
   "What's the best ski resort in the world?": "Val Thorens, France",
   "Who framed Roger Rabbit?": "We're still investigating that"
