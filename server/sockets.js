@@ -36,7 +36,7 @@ var isQuestion = (message) => {
 };
 
 var lookupTeaser = (message) => {
-  if (message.match(/chuck\s+?norr?is/i)) {
+  if (message.match(/(chuck\s+?norr?is)|joke|prank/i)) {
     return qa.chuckNorris[_.random(qa.chuckNorris.length)];
   }
 };
