@@ -2,7 +2,7 @@
   <img ng-src="{{ messageCtrl.message.avatarUrl }}" class="md-avatar message-avatar"/>
   <div class="md-list-item-text compact">
     <p style="text-align: right;">
-      <small><strong>{{messageCtrl.message.username }}</strong>, {{ messageCtrl.message.timestamp | createdDate }}</small>
+      <small><strong>{{messageCtrl.message.username | anonymousUsernameFallback }}</strong>, {{ messageCtrl.message.timestamp | createdDate }}</small>
     </p>
     <div class="message-content">{{messageCtrl.message.text}}</div>
   </div>
