@@ -13,7 +13,7 @@ var pastQuestions = {}, userQaCount = {}, users = [];
 
 var answerToSimilarQuestion = (question, collection) => {
   return _.find(collection, (a, q) => {
-    return stringSimilarity.compareTwoStrings(question, q) > 0.7;
+    return stringSimilarity.compareTwoStrings(question, q) > 0.8;
   });
 };
 
